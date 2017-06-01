@@ -20,5 +20,10 @@ module.exports = {
                 loader: 'url-loader?limit=100000' 
             }
         ]
+    },
+    resolve: {
+        alias: {
+            "CellFormatter": path.resolve(__dirname, "app/lib/CellFormatter.js")
+        }
     }
 }
