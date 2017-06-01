@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-
+//a minion records
 const PercentCompleteFormatter = React.createClass({
   propTypes: {
     value: React.PropTypes.number.isRequired
@@ -16,20 +16,19 @@ const PercentCompleteFormatter = React.createClass({
       </div>);
   }
 });
-
-class Abc extends React.Component {
+class Example02 extends React.Component {
      constructor(props) {
           super(props);
-          var rows = [];
-          for (let i =0; i< 100; i++) {
+          let rows = [];
+          for (let i =0; i< 1000000; i++) {
                rows.push({
                        id: i,
                        task: 'Task ' + i,
-                       complete: Math.min(100, Math.round(Math.random() * 110)),
-                       priority: ['Critical', 'High', 'Medium', 'Low'][Math.floor((Math.random() * 3) + 1)],
-                       issueType: ['Bug', 'Improvement', 'Epic', 'Story'][Math.floor((Math.random() * 3) + 1)],
-                       startDate: 'aa',
-                       completeDate: ''
+                       complete: 30,
+                       priority: 'Critical',
+                       issueType: 'Bug',
+                       startDate: '2017/12/12',
+                       completeDate: '2017/12/12'
                  })
           }
           var header =  [
@@ -37,7 +36,7 @@ class Abc extends React.Component {
                {key: 'task',name: 'Title'},
                {key: 'priority',name: 'Priority'},
                {key: 'issueType',name: 'Issue Type'},
-               {key: 'complete',name: '% Complete',formatter: PercentCompleteFormatter},
+               {key: 'complete',name: '% Complete', formatter: PercentCompleteFormatter},
                {key: 'startDate',name: 'Start Date'},
                {key: 'completeDate',name: 'Expected Complete'} ];
           this.state = {
@@ -45,12 +44,14 @@ class Abc extends React.Component {
                _columns: header
           }
      }
-
+     getRandomDate(start, end) {
+       return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
+     }
      rowGetter(i) {
-          return this.state._rows[i]
+       return this.state._rows[i]
      }
      render() {
-          return (
+       return (
                 <ReactDataGrid
                   columns={this.state._columns}
                   rowGetter={this.rowGetter.bind(this)}
@@ -58,4 +59,4 @@ class Abc extends React.Component {
                   minHeight={500} />);
      }
 }
-module.exports = Abc;
+module.exports = Example02;
