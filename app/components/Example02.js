@@ -1,23 +1,12 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 import {PercentComplete} from 'CellFormatter';
-
+import {connect} from 'react-redux';
+import axios from 'axios';
 class Example02 extends React.Component {
      constructor(props) {
           super(props);
-          let rows = [];
-          for (let i =0; i< 1000000; i++) {
-               rows.push({
-                       id: i,
-                       task: 'Task ' + i,
-                       complete: 30,
-                       priority: 'Critical',
-                       issueType: 'Bug',
-                       startDate: '2017/12/12',
-                       completeDate: '2017/12/12'
-                 })
-          }
-          var header =  [
+          var header = [
                {key: 'id',name: 'ID',width: 80},
                {key: 'task',name: 'Title'},
                {key: 'priority',name: 'Priority'},
@@ -25,28 +14,33 @@ class Example02 extends React.Component {
                {key: 'complete',name: '% Complete',
                 formatter: <PercentComplete editable="true" onSave={this.onSave.bind(this)}/>},
                {key: 'startDate',name: 'Start Date'},
-               {key: 'completeDate',name: 'Expected Complete'} ];
-          this.state = {
-               _rows: rows,
-               _columns: header
-          }
+               {key: 'completeDate',name: 'Expected Complete'}];
+           this.state = {columns: header};
+     }
+     componentDidMount() {
+       axios.get("/listProduct").then(res=>{
+         var {dispatch} = this.props;
+         dispatch({type: "LIST_PRODUCT", listproduct: res.data});
+       }).catch(e=>console.log(e))
      }
      onSave(id, value) {
-        alert("Row : " + id + " Value : " + value);
-     }
-     getRandomDate(start, end) {
-       return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
+        var {dispatch} = this.props;
+        //dispatch({type: "UPDATE_FIELD_COMPLETE", id: id, value: value});
+        dispatch({type: "UPDATE_FIELD_COMPLETE", id: id, value: value});
      }
      rowGetter(i) {
-       return this.state._rows[i]
+       return this.props.listProduct[i]
      }
      render() {
+       if(this.props.listProduct == undefined || this.props.listProduct.length == 0) return <div>Loading...</div>
        return (
                 <ReactDataGrid 
-                  columns={this.state._columns}
+                  columns={this.state.columns}
                   rowGetter={this.rowGetter.bind(this)}
-                  rowsCount={this.state._rows.length}
+                  rowsCount={this.props.listProduct.length}
                   minHeight={500} />);
      }
 }
-module.exports = Example02;
+module.exports = connect(function(state){
+  return {listProduct: state.listproduct}
+})(Example02);
