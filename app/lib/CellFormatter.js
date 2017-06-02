@@ -33,6 +33,19 @@ class PercentCompleteFormatter extends React.Component {
                     </div></div>:<div><input type="text" ref="txt" onBlur={this.handleOnBlur.bind(this)} onKeyPress={this.handleChange.bind(this)}/></div>)
   }
 }
+
+class ButtonFormatter extends React.Component {
+    handleClick() {
+        var {rowIdx, value , onClickMe} = this.props;
+        onClickMe(rowIdx, value);
+    }
+    render() {
+        return <button onClick={this.handleClick.bind(this)} style={{padding: '0px 12px'}} className={this.props.css}>{this.props.children}</button>
+    }
+}
+
+
 module.exports = {
-    PercentComplete: PercentCompleteFormatter
+    PercentComplete: PercentCompleteFormatter,
+    Button: ButtonFormatter
 }

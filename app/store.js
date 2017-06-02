@@ -11,11 +11,17 @@ var username = (state = null, action) => {
 var listproduct = (state = [], action)=>{
     switch(action.type) {
         case "LIST_PRODUCT" : return action.listproduct
-        case "REMOVE_ITEM"  : return state.filter((e,i)=>e.id != action.id)
+        case "REMOVE_ITEM"  : return state.filter((e,i)=>i != action.id)
         case "UPDATE_FIELD_COMPLETE" : {
             //return [...state].map((e,i)=>e.id==action.id?e.complete=action.value:f=>f)
             var stateclone = [...state];
             stateclone[action.id].complete = action.value;
+            return stateclone;
+        }
+        case "UPDATE_ITEM" : {
+            //return [...state].map((e,i)=>e.id==action.id?e.complete=action.value:f=>f)
+            var stateclone = [...state];
+            stateclone[action.id] = action.item;
             return stateclone;
         }
         default: return state;

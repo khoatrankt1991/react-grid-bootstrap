@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-import {PercentComplete} from 'CellFormatter';
+import {PercentComplete, Button} from 'CellFormatter';
 import {connect} from 'react-redux';
 import axios from 'axios';
 class Example02 extends React.Component {
@@ -14,7 +14,8 @@ class Example02 extends React.Component {
                {key: 'complete',name: '% Complete',
                 formatter: <PercentComplete editable="true" onSave={this.onSave.bind(this)}/>},
                {key: 'startDate',name: 'Start Date'},
-               {key: 'completeDate',name: 'Expected Complete'}];
+               {key: 'completeDate',name: 'Expected Complete'},
+               {key: '',name: 'Action', formatter: <Button css="btn btn-danger" onClickMe={this.onRemove.bind(this)}>X</Button>}];
            this.state = {columns: header};
      }
      componentDidMount() {
@@ -26,7 +27,13 @@ class Example02 extends React.Component {
      onSave(id, value) {
         var {dispatch} = this.props;
         //dispatch({type: "UPDATE_FIELD_COMPLETE", id: id, value: value});
-        dispatch({type: "UPDATE_FIELD_COMPLETE", id: id, value: value});
+        //dispatch({type: "UPDATE_FIELD_COMPLETE", id: id, value: value});
+        dispatch({type: "UPDATE_ITEM", id: id, item: {...this.props.listProduct[id], complete: value}});
+     }
+     onRemove(idx, value) {
+        console.log(idx);
+         var {dispatch} = this.props;
+         dispatch({type: "REMOVE_ITEM", id: idx});
      }
      rowGetter(i) {
        return this.props.listProduct[i]

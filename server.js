@@ -11,7 +11,7 @@ app.get("/listProduct", (req, res)=>{
     let rows = [];
     for (let i =0; i< 1000000; i++) {
         rows.push({
-            id: i,
+            id: i +'ab' + (i+1),
             task: 'Task ' + i,
             complete: 30,
             priority: 'Critical',
