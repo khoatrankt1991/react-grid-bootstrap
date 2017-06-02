@@ -7,31 +7,25 @@ class KtDatePickerFormatter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment(),
-            isActived: false
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.switchMode = this.switchMode.bind(this);
+            dateFormat: this.props.dateFormat==undefined?"YYYY/MM/DD":this.props.dateFormat,
+            isActived: false}
     }
     handleChange(date) {
-        this.setState({
-        startDate: date,
-        isActived: false
-        });
+        this.disableEdit();
+        var { onSave, rowIdx } = this.props;
+        onSave(rowIdx , date.format(this.state.dateFormat));
     }
-    switchMode() {
-        this.state.isActived = true;
-        this.setState(this.state);
+    enableEdit() {
+        this.setState({isActived: true});
     }
-    onClickOutside(){
-        this.state.isActived = false;
-        this.setState(this.state);
+    disableEdit(){
+        this.setState({isActived: false});
     }
     render() {
-        if(!this.state.isActived) return <div onClick={this.switchMode.bind(this)}>{this.state.startDate.format("YYYY/MM/DD")}</div>
-        return <DatePicker onClickOutside={this.onClickOutside.bind(this)} autoFocus="true" dateFormat="YYYY/MM/DD"
-        selected={this.state.startDate}
-        onChange={this.handleChange} calendarClassName="red-border"/>
+        return!this.state.isActived?<div onClick={this.enableEdit.bind(this)}>{this.props.value}</div>
+        :<DatePicker onClickOutside={this.disableEdit.bind(this)} autoFocus="true" dateFormat={this.state.dateFormat}
+        selected={moment(this.props.value,this.state.dateFormat)}
+        onChange={this.handleChange.bind(this)}/>
     }
 }
 module.exports = KtDatePickerFormatter

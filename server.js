@@ -9,15 +9,15 @@ app.get("/", (req, res)=>res.render("home"));
 
 app.get("/listProduct", (req, res)=>{
     let rows = [];
-    for (let i =0; i< 1000000; i++) {
+    for (let i =0; i< 100; i++) {
         rows.push({
             id: i +'ab' + (i+1),
             task: 'Task ' + i,
             complete: 30,
             priority: 'Critical',
             issueType: 'Bug',
-            startDate: '2017/12/12',
-            completeDate: '2017/12/12'})
+            startDate: '2017/5/5',
+            completeDate: '2017/4/4'})
     }
     res.send(rows);
 });
