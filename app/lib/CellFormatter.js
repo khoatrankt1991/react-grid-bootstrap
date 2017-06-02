@@ -1,5 +1,5 @@
 import React from 'react';
-
+import KtDatePickerFormatter from './ktgrid/format/KtDatePickerFormatter.js';
 class PercentCompleteFormatter extends React.Component {
     constructor(props) {
         super(props);
@@ -50,5 +50,6 @@ class ButtonFormatter extends React.Component {
 
 module.exports = {
     PercentComplete: PercentCompleteFormatter,
-    Button: ButtonFormatter
+    Button: ButtonFormatter,
+    DatePicker: KtDatePickerFormatter
 }

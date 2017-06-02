@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-import {PercentComplete, Button} from 'CellFormatter';
+import {DatePicker, PercentComplete, Button} from 'CellFormatter';
 import {connect} from 'react-redux';
 import axios from 'axios';
 class Example02 extends React.Component {
@@ -13,7 +13,7 @@ class Example02 extends React.Component {
                {key: 'issueType',name: 'Issue Type'},
                {key: 'complete',name: '% Complete',
                 formatter: <PercentComplete editable="true" onSave={this.onSave.bind(this)}/>},
-               {key: 'startDate',name: 'Start Date'},
+               {key: 'startDate',name: 'Start Date', formatter: <DatePicker />},
                {key: 'completeDate',name: 'Expected Complete'},
                {key: '',name: 'Action', formatter: <Button css="btn btn-danger" onClickMe={this.onRemove.bind(this)}>X</Button>}];
            this.state = {columns: header};
