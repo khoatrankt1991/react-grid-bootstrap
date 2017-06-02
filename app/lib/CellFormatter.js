@@ -21,9 +21,8 @@ class PercentCompleteFormatter extends React.Component {
     }
     render() { //console.log(this.props);
         const percentComplete = this.props.value + '%';
-        var colorcss = "progress-bar ";
-        this.props.value>50?colorcss+="progress-bar-success":colorcss+="progress-bar-danger";
-        console.log(colorcss);
+        var colorcss = "progress-bar-striped " +
+        ["progress-bar-danger", "progress-bar-warning", "progress-bar-info", "progress-bar-success"][parseInt(this.props.value * 4/100)];
         return !this.props.editable?(<div className="progress" style={{marginTop: '20px'}}>
                     <div className={colorcss} role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: percentComplete}}>
                     {percentComplete}
