@@ -4,7 +4,8 @@ class PercentCompleteFormatter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isActived: false
+            isActived: false,
+            value: this.props.value
         }
     }
     handleOnClick () {
@@ -13,11 +14,14 @@ class PercentCompleteFormatter extends React.Component {
     handleChange(e) {
         if(e.key != 'Enter') return;
         var {onSave} = this.props;
-        onSave(this.props.rowIdx, this.refs.txt.value);
+        onSave(this.props.rowIdx, this.state.value);
         this.setState({isActived: false});
     }
     handleOnBlur() {
         this.setState({isActived: false});
+    }
+    handleOnChange(e) {
+        this.setState({value: e.target.value});
     }
     render() { //console.log(this.props);
         const percentComplete = this.props.value + '%';
@@ -29,7 +33,7 @@ class PercentCompleteFormatter extends React.Component {
                     </div></div>):(!this.state.isActived?<div onClick={this.handleOnClick.bind(this)} className="progress" style={{marginTop: '20px'}}>
                     <div className={colorcss} role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width: percentComplete}}>
                     {percentComplete}
-                    </div></div>:<div><input type="text" ref="txt" onBlur={this.handleOnBlur.bind(this)} onKeyPress={this.handleChange.bind(this)}/></div>)
+                    </div></div>:<div><input type="text" value={this.state.value} onChange={this.handleOnChange.bind(this)} autoFocus="true" onBlur={this.handleOnBlur.bind(this)} onKeyPress={this.handleChange.bind(this)}/></div>)
   }
 }
 
